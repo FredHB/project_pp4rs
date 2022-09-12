@@ -1,0 +1,7 @@
+/playground/
+/data/
+# without leading / ALL folders named data are excluded, with / only those in the root dir.
+/out/ 
+/.snakemake/
+/.vscode/
+__pycache__/
