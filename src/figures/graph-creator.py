@@ -7,6 +7,7 @@ import country_converter as coco
 import altair as alt
 from vega_datasets import data
 import argparse
+import numpy as np
 
 def clean(input_path, stor):
     """Cleaning data for graphs and creating new filtered data frames"""
@@ -40,10 +41,10 @@ def hist_price(df, output_path_hist_price):
     plt.title("Distribution of Sale Price")
 
     plt.savefig(output_path_hist_price)
+    plt.close()
 
 def hist_price_auction(df, output_path_hist_price_auction):
     """Creating histogram of sale price by auction/non-auction"""
-
     hist_auction = sns.histplot(data=df, x="price_sold_scraped", 
                 hue="seller_auction", bins = 50, alpha = .4)
 
@@ -53,6 +54,7 @@ def hist_price_auction(df, output_path_hist_price_auction):
     hist_auction.legend(labels=["Direct Sale","Auction"])
 
     hist_auction.figure.savefig(output_path_hist_price_auction)
+    plt.close()
 
 def hist_price_storage(df, output_path_hist_price_storage):
     """Creating histogram of sale price by phone storage"""
@@ -64,6 +66,7 @@ def hist_price_storage(df, output_path_hist_price_storage):
     hist_storage.set_title("Distribution of Sale Price by Storage")
     hist_storage.legend(labels=["64 GB","256 GB", "128 GB", "512 GB"])
     hist_storage.figure.savefig(output_path_hist_price_storage)
+    plt.close()
 
 
 def graph_country_bids_price(df_stor_auction, output_path_graph_country_bids_price):
@@ -103,7 +106,7 @@ def clean_country_data(df_stor):
         return iso_numeric_code
 
     df_stor['code_numeric'] = df_stor['location_seller_scraped'].apply(get_iso_numeric_code)
-    return df_stor['code_numeric']
+    return df_stor
 
 def world_map(df_stor, output_path_world_map):
     """Create world map with mean sale price for specific storage"""
@@ -199,10 +202,10 @@ def main():
 
     df, df_stor, df_stor_auction = clean(args.input_path, args.stor)
     hist_price(df, args.output_path_hist_price)
-    hist_price_auction(df, args.output_path_hist_price_auction)
-    
-    hist_price_storage(df_stor, args.output_path_hist_price_storage)
+    hist_price_auction(df, args.output_path_hist_price_auction)  
+    hist_price_storage(df, args.output_path_hist_price_storage)
     graph_country_bids_price(df_stor_auction, args.output_path_graph_country_bids_price)
+    df_stor = clean_country_data(df_stor)
     world_map(df_stor, args.output_path_world_map)
     
 
