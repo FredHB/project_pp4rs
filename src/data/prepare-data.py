@@ -4,7 +4,6 @@ import requests
 import bs4 
 import pandas as pd
 import argparse
-from datetime import datetime
 
 # Generate a scrape-able eBay search URL
 def generate_search_url(params = {
