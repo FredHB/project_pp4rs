@@ -14,8 +14,6 @@ def clean_data(input_path, output_path) :
     
     df = pd.read_csv(input_path)
 
-    df = df[df.price_sold_scraped.str.count(" ") == 1] # remove sellers with repeated sale of item
-    df = df.reset_index()
     df['currency'] = ""
     df.currency[df.price_sold_scraped.str.match("EUR")] = "EUR"
     df.currency[df.price_sold_scraped.str.match("\$")] = "USD"
@@ -25,13 +23,21 @@ def clean_data(input_path, output_path) :
     df.price_sold_scraped[df.shop_code.str.match("de|fr|it")] = df.price_sold_scraped.str.replace(",", ".")[df.shop_code.str.match("de|fr|it")] # swap delimiters
     df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)] = df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)].replace("\.([0-9][0-9])$", ',\1') # swap delimiters
     df.price_sold_scraped = df.price_sold_scraped.str.replace(r'([0-9 ]*)\.([0-9 ]*)\.([0-9 ]*)', r'\1\2.\3', regex = True) # still swap delimiters...
+    
+    # Some sellers add a range of prices, we will remove those listings
+    df = df[df.price_sold_scraped.str.count("bis") == 0] # German website
+    df = df[df.price_sold_scraped.str.count("to") == 0] # American website
+    df = df[df.price_sold_scraped.str.count("a") == 0] # Italian website
+    df = df[df.price_sold_scraped.str.count("à") == 0] # French website
+    df = df.reset_index()
+    
     df.price_sold_scraped = pd.to_numeric(df.price_sold_scraped, errors= 'coerce') # Convert to numeric var
 
     df.bids_n_scraped = df.bids_n_scraped.str.extract("([ 0-9]*)")
     df.bids_n_scraped = df.bids_n_scraped.str.replace(" ", "")
     df.bids_n_scraped = pd.to_numeric(df.bids_n_scraped, errors= 'coerce') # Converting to numeric var
 
-    df.location_seller_scraped = df.location_seller_scraped.str.replace("([a-z]* )", "")
+    df.location_seller_scraped = df.location_seller_scraped.str.replace("([a-z]* )", "", n = 1)
     df.date_sale_scraped = df.date_sale_scraped.str.replace("([a-zA-Z]*  )", "")
 
     df.to_csv(output_path, index = False)
@@ -44,13 +50,13 @@ def main():
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "input_path",
+        "--input_path",
         help = "Input path to raw data (csv) file.", 
         default = "./data/raw/data_raw.csv",
         type = str
         )
     parser.add_argument(
-        "output_path",
+        "--output_path",
         help = "output path to cleaned data (csv) file.", 
         default = "./data/clean/data_clean.csv",
         type = str

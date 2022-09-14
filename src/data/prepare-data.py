@@ -112,32 +112,16 @@ def output(data):
     df =  pd.DataFrame(data)
     return df
 
-# Clean data set 
-def clean(df):
-    """Clean data set, by removing extra info and transforming data types"""
-    df.price_sold = df.price_sold.str.replace("$", "") # Getting rid of dollar signs
-    df.price_sold = pd.to_numeric(df.price_sold.str.replace(",", "")) # Converting to numeric var
-
-    df.bids_n = df.bids_n.str.replace(" bids", "") # Getting rid of "bids"
-    df.bids_n = df.bids_n.str.replace(" bid", "") # Getting rid of "bid"
-    df.bids_n = pd.to_numeric(df.bids_n) # Converting to numeric var
-
-    df.location_seller = df.location_seller.str.replace("from ", "")
-
-    df.date_sale = df.date_sale.str.replace("Sold ", "")
-    df.date_sale = pd.to_datetime(df.date_sale) # convert into date
-
-    return df
-
 def main():
     """Main function"""
 
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "output_path",
+        "--output_path",
         help = "The path to the output file", 
-        type = str
+        type = str, 
+        default = "./data/raw/data_raw.csv"
         )
     parser.add_argument(
         "--domain_list",
