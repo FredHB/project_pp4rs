@@ -119,80 +119,80 @@ def main():
 
     parser.add_argument(
         "--output_path",
-        help = "The path to the output file", 
+        help = "The path to the output file. Default: ./data/raw/data_raw.csv", 
         type = str, 
         default = "./data/raw/data_raw.csv"
         )
     parser.add_argument(
         "--domain_list",
-        help = "List of eBay domains (string) corresponding to countries", 
+        help = "List of eBay domains (string) corresponding to countries. Default: .com", 
         nargs = "*",
         default = ["com"]
     )
     parser.add_argument(
         "--search_key",
-        help = "The search key to be used in the search request", 
+        help = "The search key to be used in the search request. Default: 'iphone x' -(defekt, defect, defunct, damaged)", 
         default = '"iphone x" -(defekt, defect, defunct, damaged)',
         type = str
         )
     parser.add_argument(
         "--model",
-        help = "Model name of device in eBay.", 
+        help = "Model name of device in eBay.  Default: Apple iPhone X.", 
         default = "Apple iPhone X",
         type = str
         )
     parser.add_argument(
         "--lock",
-        help = "Device is factory locked/unlocked.", 
+        help = "Device is factory locked/unlocked.  Default: Factory Unlocked.", 
         default = "Factory Unlocked",
         type = str
         )
     parser.add_argument(
         "--storage_list",
-        help = "Device storage.", 
+        help = "Device storage.  Default: 64.", 
         nargs = '*',
         default = [64],
         )
     parser.add_argument(
         "--condition",
-        help = "Device condition (numeric, eBay specific. 3000 = 'used').", 
+        help = "Device condition (numeric, eBay specific. 3000 = 'used'). Default: 3000.", 
         default = [3000],
         nargs = '*',
         type = int
         )
     parser.add_argument(
         "--sold",
-        help = "Only scrape data of sold listings.", 
+        help = "Only scrape data of sold listings.  Default: 1.", 
         default = 1,
         type = int
         )
     parser.add_argument(
         "--n_items_per_page",
-        help = "Scrape n items per page (attn: only first page is scraped anyways).", 
+        help = "Scrape n items per page (attn: only first page is scraped anyways).  Default: 240.", 
         default = 240,
         type = int
         )
     parser.add_argument(
         "--local_listings",
-        help = "Only include listings local to the eBay shop in search request", 
+        help = "Only include listings local to the eBay shop in search request. Default: 1.", 
         default = 1,
         type = int
     )
     parser.add_argument(
         "--sell_auth",
-        help = "Whether to only include authorized sellers.", 
+        help = "Whether to only include authorized sellers. Default: 0.", 
         default = 0,
         type = int
         )
     parser.add_argument(
         "--sell_store",
-        help = "Whether to only include sellers with eBay shops.", 
+        help = "Whether to only include sellers with eBay shops. Default: 0.", 
         default = 0,
         type = int
         )
     parser.add_argument(
         "--auctions_list",
-        help = "Whether to only include auctions. Numeric list to loop over.", 
+        help = "Whether to only include auctions. Numeric list to loop over. Default: [0,1]", 
         default = [0,1],
         nargs = '*'
         )

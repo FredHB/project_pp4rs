@@ -69,13 +69,13 @@ def main():
 
     parser.add_argument(
         "--input_path",
-        help = "Input path to raw data (csv) file.", 
+        help = "Input path to raw data (csv) file. Default: ./data/raw/data_raw.csv", 
         default = "./data/raw/data_raw.csv",
         type = str
         )
     parser.add_argument(
         "--output_path",
-        help = "output path to cleaned data (csv) file.", 
+        help = "output path to cleaned data (csv) file. Default: ./data/clean/data_clean.csv", 
         default = "./data/clean/data_clean.csv",
         type = str
         )

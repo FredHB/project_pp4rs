@@ -150,49 +150,49 @@ def main():
 
     parser.add_argument(
         "--input_path",
-        help = "Input path to clean data (csv) file.", 
+        help = "Input path to clean data (csv) file. Default: ./data/clean/data_clean.csv", 
         default = "./data/clean/data_clean.csv",
         type = str
         )
 
     parser.add_argument(
         "--output_path_hist_price",
-        help = "The path to the output file for the overall price histogram", 
+        help = "The path to the output file for the overall price histogram. Default: ./out/hist_price.png", 
         type = str, 
         default = "./out/hist_price.png"
         )
 
     parser.add_argument(
         "--output_path_hist_price_auction",
-        help = "The path to the output file for the overall price histogram by auction", 
+        help = "The path to the output file for the overall price histogram by auction. Default: ./out/hist_price_auction.png", 
         type = str, 
         default = "./out/hist_price_auction.png"
         )
 
     parser.add_argument(
         "--output_path_hist_price_storage",
-        help = "The path to the output file for the overall price histogram by storage",
+        help = "The path to the output file for the overall price histogram by storage. Default: ./out/hist_price_storage.png",
         type = str,
         default = "./out/hist_price_storage.png"
         )
 
     parser.add_argument(
         "--output_path_graph_country_bids_price",
-        help = "The path to the output file for the interactive graph of relationship between bids and price per country",
+        help = "The path to the output file for the interactive graph of relationship between bids and price per country. Default: ./out/graph_country_bids_price.html",
         type = str,
         default = "./out/graph_country_bids_price.html"
     )
 
     parser.add_argument(
         "--output_path_world_map",
-        help = "The path to the output file for the world map",
+        help = "The path to the output file for the world map. Default: ./out/world_map.html",
         type = str,
         default = "./out/world_map.html"
     )
 
     parser.add_argument(
         "--stor",
-        help = "Storage chosen to filter the graphs",
+        help = "Storage chosen to filter the graphs. Default: 64.",
         type = int, 
         default = 64
     )
