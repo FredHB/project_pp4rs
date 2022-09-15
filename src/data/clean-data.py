@@ -1,5 +1,6 @@
 import pandas as pd
 import argparse
+import datetime
 
 def clean_data(input_path, output_path) :
     """Function cleans the raw dataset. Needs path to input and to output datafile.
@@ -18,7 +19,7 @@ def clean_data(input_path, output_path) :
     df.currency[df.price_sold_scraped.str.match("EUR")] = "EUR"
     df.currency[df.price_sold_scraped.str.match("\$")] = "USD"
     df.currency[df.price_sold_scraped.str.match("£")] = "GBP"
-
+    
     df.price_sold_scraped = df.price_sold_scraped.str.replace("\$|EUR|CHF|£", "") # Getting rid of currency signs
     df.price_sold_scraped[df.shop_code.str.match("de|fr|it")] = df.price_sold_scraped.str.replace(",", ".")[df.shop_code.str.match("de|fr|it")] # swap delimiters
     df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)] = df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)].replace("\.([0-9][0-9])$", ',\1') # swap delimiters
@@ -32,6 +33,17 @@ def clean_data(input_path, output_path) :
     df = df.reset_index()
     
     df.price_sold_scraped = pd.to_numeric(df.price_sold_scraped, errors= 'coerce') # Convert to numeric var
+ 
+    # convert final price to numeric
+    today = datetime.date.today()
+    lastmonth = today - datetime.timedelta(days=30)
+    
+    forex_per_usd = {
+        'EUR' : fred.get_series('DEXUSEU', observation_start=lastmonth, observation_end=today).dropna()[-1],
+        'GBP' : fred.get_series('DEXUSUK', observation_start=lastmonth, observation_end=today).dropna()[-1]
+    }
+    df.price_sold_scraped[df.currency == "EUR"] = df.price_sold_scraped[df.currency == "EUR"] / forex_per_usd['EUR']
+    df.price_sold_scraped[df.currency == "GBP"] = df.price_sold_scraped[df.currency == "GBP"] / forex_per_usd['GBP']
 
     df.bids_n_scraped = df.bids_n_scraped.str.extract("([ 0-9]*)")
     df.bids_n_scraped = df.bids_n_scraped.str.replace(" ", "")
