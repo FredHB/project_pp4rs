@@ -1,6 +1,12 @@
 import pandas as pd
 import argparse
 import datetime
+from fredapi import Fred
+
+file = open('src/data/fred_api_key.txt',)
+key = file.readlines()[0]
+file.close()
+fred = Fred(api_key=key)
 
 def clean_data(input_path, output_path) :
     """Function cleans the raw dataset. Needs path to input and to output datafile.
@@ -16,14 +22,14 @@ def clean_data(input_path, output_path) :
     df = pd.read_csv(input_path)
 
     df['currency'] = ""
-    df.currency[df.price_sold_scraped.str.match("EUR")] = "EUR"
-    df.currency[df.price_sold_scraped.str.match("\$")] = "USD"
-    df.currency[df.price_sold_scraped.str.match("£")] = "GBP"
+    df.loc[df.price_sold_scraped.str.match("EUR"), 'currency'] = "EUR"
+    df.loc[df.price_sold_scraped.str.match("\$"), 'currency'] = "USD"
+    df.loc[df.price_sold_scraped.str.match("£"), 'currency'] = "GBP"
     
-    df.price_sold_scraped = df.price_sold_scraped.str.replace("\$|EUR|CHF|£", "") # Getting rid of currency signs
-    df.price_sold_scraped[df.shop_code.str.match("de|fr|it")] = df.price_sold_scraped.str.replace(",", ".")[df.shop_code.str.match("de|fr|it")] # swap delimiters
-    df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)] = df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)].replace("\.([0-9][0-9])$", ',\1') # swap delimiters
-    df.price_sold_scraped = df.price_sold_scraped.str.replace(r'([0-9 ]*)\.([0-9 ]*)\.([0-9 ]*)', r'\1\2.\3', regex = True) # still swap delimiters...
+    df.loc[:, 'price_sold_scraped'] = df.price_sold_scraped.str.replace("\$|EUR|CHF|£", "") # Getting rid of currency signs
+    df.loc[df.shop_code.str.match("de|fr|it"), 'price_sold_scraped'] = df.price_sold_scraped.str.replace(",", ".")[df.shop_code.str.match("de|fr|it")] # swap delimiters
+    df.loc[(df.price_sold_scraped.str.count('\.') > 1), 'price_sold_scraped'] = df.price_sold_scraped[(df.price_sold_scraped.str.count('\.') > 1)].replace("\.([0-9][0-9])$", ',\1') # swap delimiters
+    df.loc[:, 'price_sold_scraped'] = df.price_sold_scraped.str.replace(r'([0-9 ]*)\.([0-9 ]*)\.([0-9 ]*)', r'\1\2.\3', regex = True) # still swap delimiters...
     
     # Some sellers add a range of prices, we will remove those listings
     df = df[df.price_sold_scraped.str.count("bis") == 0] # German website
