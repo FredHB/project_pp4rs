@@ -30,16 +30,16 @@ rule graph_creator:
         '''
 
 rule prepare_data:
+    conda: "envs/env_af.yaml"
     input:
         script = "src/data/prepare-data.py"
     output:
         data = "data/raw/data_raw.csv"
     shell:
-        "python {input.script} --output_path {output.data} --domain_list com de fr it --storage 64 128 256 512 --condition 3000 --auctions_list 0 1"
+        "python {input.script} --output_path {output.data} --domain_list com de fr it co.uk --storage 64 128 256 512 --condition 3000 --auctions_list 0 1"
 
 rule clean_data:
-    #conda: "ak-date-prep"
-    #conda: "envs/environment.yaml"
+    #conda: "env_af"
     input:
         script = "src/data/clean-data.py",
         data = "data/raw/data_raw.csv"
