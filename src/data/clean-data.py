@@ -22,7 +22,7 @@ def clean_data(input_path, output_path) :
     df = pd.read_csv(input_path)
 
     df['currency'] = ""
-    df.loc[df.price_sold_scraped.str.match("EUR"), 'currency'] = "EUR"
+    df.loc[df.price_sold_scraped.str.match("([0-9, ]*EUR)|(EUR)"), 'currency'] = "EUR"
     df.loc[df.price_sold_scraped.str.match("\$"), 'currency'] = "USD"
     df.loc[df.price_sold_scraped.str.match("£"), 'currency'] = "GBP"
     
