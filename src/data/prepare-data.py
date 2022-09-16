@@ -63,9 +63,6 @@ def get_data(url):
     soup = bs4.BeautifulSoup(response.text, 'html.parser')
     return soup
 
-#url = "https://www.ebay.com/sch/i.html?_fsrp=1&_from=R40&_nkw=iphone+13+pro+max&_sacat=0&LH_Sold=1&rt=nc&LH_Auction=1"
-#soup = get_data(url)
-
 # Parsing and extracting all the relevant information
 def parse(soup, search_params):
     """Parse data and obtain important info and append to dictionary"""
@@ -75,18 +72,55 @@ def parse(soup, search_params):
     
     data = []
     for product in all_listings:
-        subtitles = product.find_all("div", class_ = "s-item__subtitle")[0].text.split(" · ")
-        title = product.find("div", class_ = "s-item__title s-item__title--has-tags").text
-        #print(title)
-        price_sold = product.find("span", class_ = "s-item__price").text
-        #print(price_sold)
+        
+        #scrape subtitles
+        try : 
+            subtitles = product.find_all("div", class_ = "s-item__subtitle")[0].text.split(" · ")
+        except :
+            subtitles = "unknown"
+        
+        #scrape title
+        try : 
+            title = product.find("div", class_ = "s-item__title s-item__title--has-tags").text
+        except :
+            title = "unknown"
+        
+        #scrape price       
+        try :
+            price_sold = product.find("span", class_ = "s-item__price").text
+        except :
+            price_sold = "unknown"
+        
+        #scrape number of bids     
         if str(search_params['sell_auction']) == '1' : 
-            bids_n = product.find("span", class_ = "s-item__bids s-item__bidCount").text
-            print(bids_n)
+            try : 
+                bids_n = product.find("span", class_ = "s-item__bids s-item__bidCount").text
+            except :
+                bids_n = "unknown"
         else : bids_n = "0 bids"
-        #print(bids_n)
-        location_seller = product.find("span", class_ = "s-item__location s-item__itemLocation").text
-        date_sale = product.find("div", class_ = "s-item__title--tagblock").find("span", class_ = "POSITIVE").text
+        try : 
+            location_seller = product.find("span", class_ = "s-item__location s-item__itemLocation").text
+        except :
+            if search_params['shop_code'] == "de" : 
+                location_seller = "Deutschland"
+            elif search_params['shop_code'] == "com" : 
+                location_seller = "United States"
+            elif location_seller['shop_code'] == "co.uk" : 
+                location_seller = "United Kingdom"
+            elif location_seller['shop_code'] == "fr" : 
+                location_seller = "France"
+            elif location_seller['shop_code'] == "it" : 
+                location_seller = "Italia"
+            else : 
+                location_seller = "Unknown"
+        
+        #scrape date of sale
+        try :        
+            date_sale = product.find("div", class_ = "s-item__title--tagblock").find("span", class_ = "POSITIVE").text
+        except : 
+            date_sale = "unknown"
+        
+        #append scraped data
         data.append({
             "title_scraped": title, 
             "price_sold_scraped": price_sold,
@@ -103,7 +137,6 @@ def parse(soup, search_params):
             "seller_hasstore": search_params['sell_store'],
             "seller_auction": search_params['sell_auction'] 
             })
-    #print(data)
     return data
 
 # Create pandas data frame
