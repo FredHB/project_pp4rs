@@ -1,10 +1,27 @@
-rule graph_all:
+rule outputs_all:
     input:
         graph_country_bids_price = "out/graph_country_bids_price.html",
         graph_price_auction = "out/hist_price_auction.png",
         graph_price_storage = "out/hist_price_storage.png",
         graph_price = "out/hist_price.png",
-        graph_map = "out/world_map.html"
+        graph_map = "out/world_map.html",
+        summary_stats = "out/summary_stats.html"
+
+
+rule table_creator:
+    conda: "envs/env_af.yaml"
+    input:
+        script = "src/tables/table-creator.py",
+        data = "data/clean/data_clean.csv"
+    output:
+        summary_stats = "out/summary_stats.html"
+    shell:
+        '''
+        python {input.script} \
+        --input_path {input.data} \
+        --output_path {output.summary_stats} \
+        --stor 64
+        '''
 
 rule graph_creator:
     conda: "envs/env_af.yaml"
