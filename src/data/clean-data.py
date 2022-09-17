@@ -58,6 +58,9 @@ def clean_data(input_path, output_path) :
     df.location_seller_scraped = df.location_seller_scraped.str.replace("([a-z]* )", "", n = 1)
     df.date_sale_scraped = df.date_sale_scraped.str.replace("([a-zA-Z]*  )", "")
 
+    # the bottom 10% of realized listing prices are basically just for spare parts, drop them.
+    df = df.loc[df.price_sold_scraped > df.price_sold_scraped.quantile(.1), :]
+
     df.to_csv(output_path, index = False)
     
 
