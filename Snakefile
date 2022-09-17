@@ -7,7 +7,7 @@ rule graph_all:
         graph_map = "out/world_map.html"
 
 rule graph_creator:
-    #conda: "ak-data-prep"
+    conda: "envs/env_af.yaml"
     input:
         script = "src/figures/graph-creator.py",
         data = "data/clean/data_clean.csv"
@@ -39,7 +39,7 @@ rule prepare_data:
         "python {input.script} --output_path {output.data} --domain_list com de fr it co.uk --storage 64 128 256 512 --condition 3000 --auctions_list 0 1"
 
 rule clean_data:
-    #conda: "env_af"
+    conda: "envs/env_af.yaml"
     input:
         script = "src/data/clean-data.py",
         data = "data/raw/data_raw.csv"
@@ -49,9 +49,6 @@ rule clean_data:
         "python {input.script} --input_path {input.data} --output_path {output.data}"
 
 
-# rule all_graphs:
-#     input:
-#         graph1 = "out/graph_country_bids_price.html"
 
 
 

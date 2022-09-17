@@ -34,10 +34,9 @@ def clean(input_path, stor):
 def hist_price(df, output_path_hist_price): 
     """Creating histogram of sale price"""
     n, bins, patches = plt.hist(x=df.price_sold_scraped, bins=50, color='#0504aa',
-                            alpha=0.7, rwidth=0.85)
-    plt.grid(axis='y', alpha=0.75)
-    plt.xlabel('Price Sold')
-    plt.ylabel('Frequency')
+                            alpha=0.7, rwidth=0.85, density = True)
+    plt.grid(False)
+    plt.xlabel('Sale Price')
     plt.title("Distribution of Sale Price")
 
     plt.savefig(output_path_hist_price)
@@ -46,10 +45,9 @@ def hist_price(df, output_path_hist_price):
 def hist_price_auction(df, output_path_hist_price_auction):
     """Creating histogram of sale price by auction/non-auction"""
     hist_auction = sns.histplot(data=df, x="price_sold_scraped", 
-                hue="seller_auction", bins = 50, alpha = .4)
+                hue="seller_auction", bins = 50, alpha = .4, stat = 'density', palette = "Greys")
 
     hist_auction.set_xlabel("Sale Price")
-    hist_auction.set_ylabel("Frequency")
     hist_auction.set_title("Distribution of Sale Price by Sale Format")
     hist_auction.legend(labels=["Direct Sale","Auction"])
 
@@ -58,14 +56,17 @@ def hist_price_auction(df, output_path_hist_price_auction):
 
 def hist_price_storage(df, output_path_hist_price_storage):
     """Creating histogram of sale price by phone storage"""
-    hist_storage = sns.histplot(data=df, x="price_sold_scraped", 
-                hue="storage", bins = 50, alpha = .4)
 
-    hist_storage.set_xlabel("Sale Price")
-    hist_storage.set_ylabel("Frequency")
-    hist_storage.set_title("Distribution of Sale Price by Storage")
-    hist_storage.legend(labels=["64 GB","256 GB", "128 GB", "512 GB"])
+    hist_storage = sns.FacetGrid(df, col="storage", col_wrap = 2, height = 5, aspect = 1.2)
+    hist_storage.map(sns.histplot, "price_sold_scraped", stat = 'density', bins = 50)
+    hist_storage.set_axis_labels("Sale Price ($)")
+    hist_storage.set_titles(col_template="{col_name} GB")
+    hist_storage.fig.subplots_adjust(top=0.9)
+    hist_storage.fig.suptitle("Distribution of Sale Price by Storage")
     hist_storage.figure.savefig(output_path_hist_price_storage)
+
+
+
     plt.close()
 
 
