@@ -37,8 +37,8 @@ def create_table(output_path, df_by_country, df_mean, df_std):
                     index=pd.Index(['France', 'Germany', 'Italy', 'United Kingdom', 'United States', 'All'], name='Countries'),
                     columns=pd.MultiIndex.from_product([['Sale Price', 'Number of bids in auctions', 'Share of auctions'],['Mean', 'SD']]))
 
-    summary_stats = summary_stats.style.format('{:.2f}').set_properties(**{'text-align': 'center'})
-    summary_stats = summary_stats.set_table_styles([dict(selector = 'th', props=[('text-align', 'center')])])
+    summary_stats = summary_stats.style.format('{:.2f}').set_properties(**{'text-align': 'left', 'color': '#444', 'padding': '4px', 'width': '80px'})
+    summary_stats = summary_stats.set_table_styles([dict(selector = 'th', props=[('text-align', 'left'), ('color', '#444'), ('font-size', '18px')])])
 
     with open(output_path, 'w') as f:
         f.write(summary_stats.render())

@@ -11,8 +11,95 @@
                 font-size:18px;
                 color:#444;
                 padding:0
-            10px}
+                10px}
+            iframe {
+                font-size:18px;
+                color:#444;
+                outline: none;
+              }
             h1,h2,h3{line-height:1.2}
+
+            * {
+            box-sizing: border-box;
+            }
+            .slider {
+            width: 600px;
+            text-align: center;
+            overflow: hidden;
+            }
+            .slides {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+            }
+            .slides::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+            }
+            .slides::-webkit-scrollbar-thumb {
+            background: #eee;
+            border-radius: 10px;
+            }
+            .slides::-webkit-scrollbar-track {
+            background: transparent;
+            }
+            .slides > div {
+            scroll-snap-align: start;
+            flex-shrink: 0;
+            width: 640px;
+            height: 489px;
+            margin-right: 50px;
+            border-radius: 10px;
+            background: #eee;
+            transform-origin: center center;
+            transform: scale(1);
+            transition: transform 0.5s;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /*font-size: 100px;*/
+            }
+            .slider > a {
+            display: inline-flex;
+            width: 1.5rem;
+            height: 1.5rem;
+            background: white;
+            text-decoration: none;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            margin: 0 0 0.5rem 0;
+            position: relative;
+            }
+            .slider > a:active {
+            top: 10px;
+            color: #eee;
+            }
+            .slider > a:focus {
+            background: #eee;
+            }
+            /* Don't need button navigation */
+            @supports (scroll-snap-type) {
+            .slider > a {
+                display: none;
+            }
+            }
+            /* html,
+            body {
+            height: 100%;
+            overflow: hidden;
+            }
+            body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(to right, #1c87c9, #ffcc00);
+            font-family: 'Ropa Sans', sans-serif;
+            } */
+            
         </style>
     </head>
     
@@ -22,43 +109,79 @@
         </header>
         
         <h2>1. Introduction</h2>
-
-        <h2>2. Technical Methodology and Data</h2>
+            <p>Some introduction text. We have a lot of that. But we won't put it here.</p>
         
+        <h2>2. Technical Methodology and Data</h2>
+            <p>We used a lot of fancy methodologies to scrape data from eBay. First, we cooked a beautiful soup. We seasoned it with an eBay search request. That was something, not that easy to figure out. Then, we took all that clutter extracted from eBay website html elements (in different languages, even), cleaned it, and beautified it into a fan-tas-tic dataset. On that dataset, we were able to deploy some heavy machinery. The big guns: matplotlib, pandas, for-loops, the copilot (which is &mdash; "hi!" &mdash; reading along these lines). The copilot takes over the writing now: We also used some other fancy tools, like the <em>BeautifulSoup</em> library, and the <em>requests</em> library. We also used the <em>time</em> library, and the <em>random</em> library. We also used the <em>re</em> library. We also used the <em>os</em> library. We also used the <em>sys</em> library. We also used the <em>numpy</em> library. We also used the <em>scipy</em> library. We also used the <em>statsmodels</em> library. We also used the <em>sklearn</em> library. We also used the <em>seaborn</em> library. We also used the <em>matplotlib</em> library. We also used the <em>plotly</em> library. We also used the <em>plotly.express</em> library. We also used the <em>plotly.graph_objects</em> library. We also used the <em>plotly.io</em> library. We also used the <em>plotly.offline</em> library. We also used the <em>plotly.subplots</em> library. We also used the <em>plotly.tools</em> library. We also used the <em>plotly.validators</em> library. We also used the <em>plotly.widgets</em> library. We also used the <em>plotly.colors</em> library. We also used the <em>plotly.colors.cyclical</em> library. We also used the <em>plotly.colors.diverging</em> library. We also used the <em>plotly.colors.qualitative</em> library. We also used the <em>plotly.colors.sequential</em> library. We also used the <em>plotly.colors.sequentialminus</em> library. We also used the <em>plotly.data</em> library. We also used the <em>plotly.data.carshare</em> library. We also used the <em>plotly.data.election</em> library. We also used the <em>plotly.data.exoplanets</em> library. We also used the <em>plotly.data.gapminder</em></p>
+
+            Thanks, copilot.
+    
         <h2>3. Analysis</h2>
-            <h3><em>iPhone X</em></h3>
-                Here goes the body of the product analysis for the iPhone X
-                <!-- Here goes the body of the product analysis for the iPhone X -->
+        <h3><em>iPhone X</em></h3>
+            <p>Here goes the body of the product analysis for the iPhone X
+            <!-- Here goes the body of the product analysis for the iPhone X -->
+            </p>
+            <p>Here comes a nice interactive figure.</p>
+            <p>
+                <strong>Figure 1.</strong> Sales prices, number of bids per auction, share of auctions of total listings, by country.
+                <iframe type="text/html" src="./out/graph_country_bids_price.html" width="700" height="540" style="border:none;"></iframe>
+            </p>
 
-                <p>Here comes a nice interactive figure.</p>
-                <p>
-                    <strong>Figure 1.</strong> Sales prices v. number of bids per auction, by country.
-                    <iframe type="text/html" src="./out/graph_country_bids_price.html" width="700" height="540" style="border:none;"></iframe>
-                </p>
+            <p>
+            Of course we need a table. Here is a table which demonstrates that iPhones do sell for different prices in different countries. It is a table of the average sales price per country. The table is sorted by the average sales price in descending order. We see how prices are not affected by the mode of sale (fixed price or auction). We also see that the average sales price is highest in the United States, and lowest in the United Kingdom. (This text was written by the copilot which actually figures out that the price was lowest in the U.K. This is a nice feature of the copilot. (The last sentence was again written by the copilot. Martin, please send help.))
+            </p>
 
-            <h3><em>Teapots</em></h3>
-                Tentative alternative product #1.
-                <!-- Here goes the body of the product analysis for maybe teapots X -->
-            <h3><em>Dua Lipa's old socks</em></h3>
-                Tentative alternative product #2.
-                <!-- Here goes the body of the product analysis for some other products... -->
+            <p>Here comes a nice table.</p>
+            <p>
+                <strong>Table 1.</strong> Sales prices v. number of bids per auction, by country.
+                <iframe type="text/html" src="./out/summary_stats.html" width="700" height="300" style="border:none;"></iframe>
+            </p>
+
+            <p>
+            Moving on, we are going to look at some more figures. Like this one. What do you have to say about this, you copilot? Since you are so smart, tell a story about the histograms below. 
+            </p>
             
+            <p><strong>Figure 2 (left).</strong> Distribution of sales prices, by mode of sale.</p>
+            <strong>Figure 3 (right).</strong> Distribution of sales prices.</p>
+            <div class="slider">
+                <a href="#slide-1"></a>
+                <a href="#slide-2"></a>
+                <div class="slides">
+                    <div id="slide-1">
+                        <img src="./out/hist_price_auction.png" alt="A first histogram."></div>
+                    <div id="slide-2"><p>
+                    <img src="./out/hist_price.png" alt="Another histogram."></div>
+                </div>
+            </div>
+
+            <p>Finally, we should look at the world. This is a map of some countries in our analysis plotted on a cool map.</p>
+
+            <iframe type="text/html" src="./out/world_map.html" width="800" height="500" style="border:none;"></iframe>
+            
+
+        <h3><em>Teapots</em></h3>
+            Tentative alternative product #1.
+            <!-- Here goes the body of the product analysis for maybe teapots X -->
+        <h3><em>Dua Lipa's old socks</em></h3>
+            Tentative alternative product #2.
+            <!-- Here goes the body of the product analysis for some other products... -->
+        
 <!--
-            <p>
-                <strong>7 fucking declarations.</strong>
-            </p>
-            
-            <p>
-                That's how much CSS it took to turn that <a href="http://motherfuckingwebsite.com/">grotesque pile of shit</a> into this easy-to-read masterpiece. It's so fucking simple and it <em>still</em> has all the glory of the original perfect-ass website:
-            </p>
-            <ul>
-                <li>Shit's <em>still</em> lightweight and loads fast</li>
-                <li><em>Still</em> fits on all your shitty screens</li>
-                <li><em>Still</em> looks the same in all your shitty browsers</li>
-                <li>The motherfucker's <em>still</em> accessible to every asshole that visits your site</li>
-                <li>Shit's <em>still</em> legible and gets your fucking point across</li>
-            </ul>
-            
+        <p>
+            <strong>7 fucking declarations.</strong>
+        </p>
+        
+        <p>
+            That's how much CSS it took to turn that <a href="http://motherfuckingwebsite.com/">grotesque pile of shit</a> into this easy-to-read masterpiece. It's so fucking simple and it <em>still</em> has all the glory of the original perfect-ass website:
+        </p>
+        <ul>
+            <li>Shit's <em>still</em> lightweight and loads fast</li>
+            <li><em>Still</em> fits on all your shitty screens</li>
+            <li><em>Still</em> looks the same in all your shitty browsers</li>
+            <li>The motherfucker's <em>still</em> accessible to every asshole that visits your site</li>
+            <li>Shit's <em>still</em> legible and gets your fucking point across</li>
+        </ul>
+        
         <h3>And guess what, motherfucker:</h3>
             <p>You never knew it, but it's easy to improve readability on your site. Here's how.</p>
             
