@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    .error {
+        color: red;
+    }
+  </style>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega@5"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-lite@4.17.0"></script>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm//vega-embed@6"></script>
+</head>
+<body>
+  <div id="vis"></div>
+  <script>
+    (function(vegaEmbed) {
+      var spec = {"config": {"view": {"continuousWidth": 400, "continuousHeight": 300, "strokeWidth": 0}}, "layer": [{"mark": {"type": "geoshape", "fill": "white"}}, {"mark": {"type": "geoshape", "stroke": "black", "strokeWidth": 0.15}, "encoding": {"color": {"field": "price_sold_scraped", "legend": null, "scale": {"scheme": "lightgreyteal"}, "type": "nominal"}, "tooltip": [{"field": "location_seller_scraped", "title": "Country", "type": "nominal"}, {"field": "price_sold_scraped", "title": "Mean Sale Price", "type": "quantitative"}]}, "transform": [{"lookup": "id", "from": {"data": {"name": "data-b624454025ec75d2e7c1dc635bcf0ad8"}, "key": "code_numeric", "fields": ["price_sold_scraped", "location_seller_scraped"]}}]}], "data": {"url": "https://cdn.jsdelivr.net/npm/vega-datasets@v1.29.0/data/world-110m.json", "format": {"feature": "countries", "type": "topojson"}}, "height": 400, "projection": {"type": "naturalEarth1"}, "width": 700, "$schema": "https://vega.github.io/schema/vega-lite/v4.17.0.json", "datasets": {"data-b624454025ec75d2e7c1dc635bcf0ad8": [{"location_seller_scraped": "France", "index": 2728.9758620689654, "price_sold_scraped": 188.68966894760948, "bids_n_scraped": 5.324137931034483, "condition": 3000.0, "seller_authorized": 0.0, "seller_hasstore": 0.0, "seller_auction": 0.3586206896551724, "code_numeric": 250.0}, {"location_seller_scraped": "Germany", "index": 869.2311320754717, "price_sold_scraped": 211.72275570060808, "bids_n_scraped": 8.85377358490566, "condition": 3000.0, "seller_authorized": 0.0, "seller_hasstore": 0.0, "seller_auction": 0.5235849056603774, "code_numeric": 276.0}, {"location_seller_scraped": "Italy", "index": 4161.567164179104, "price_sold_scraped": 197.43065358317767, "bids_n_scraped": 8.286567164179104, "condition": 3000.0, "seller_authorized": 0.0, "seller_hasstore": 0.0, "seller_auction": 0.408955223880597, "code_numeric": 380.0}, {"location_seller_scraped": "United Kingdom", "index": 5737.498915401302, "price_sold_scraped": 140.29720606843375, "bids_n_scraped": 7.882863340563992, "condition": 3000.0, "seller_authorized": 0.0, "seller_hasstore": 0.0, "seller_auction": 0.4967462039045553, "code_numeric": 826.0}, {"location_seller_scraped": "United States", "index": 205.2735294117647, "price_sold_scraped": 192.09182352941176, "bids_n_scraped": 9.355882352941176, "condition": 3000.0, "seller_authorized": 0.0, "seller_hasstore": 0.0, "seller_auction": 0.4176470588235294, "code_numeric": 840.0}]}};
+      var embedOpt = {"mode": "vega-lite"};
+
+      function showError(el, error){
+          el.innerHTML = ('<div class="error" style="color:red;">'
+                          + '<p>JavaScript Error: ' + error.message + '</p>'
+                          + "<p>This usually means there's a typo in your chart specification. "
+                          + "See the javascript console for the full traceback.</p>"
+                          + '</div>');
+          throw error;
+      }
+      const el = document.getElementById('vis');
+      vegaEmbed("#vis", spec, embedOpt)
+        .catch(error => showError(el, error));
+    })(vegaEmbed);
+
+  </script>
+</body>
+</html>
