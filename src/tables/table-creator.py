@@ -7,12 +7,12 @@ def clean(input_path, storage):
     df = pd.read_csv(input_path)
     df_stor = df[df.storage == storage]
 
-    # First, need to convert location names to English (France and US are safe)
-    df_stor.location_seller_scraped[df.location_seller_scraped == 'Deutschland'] = 'Germany'
-    df_stor.location_seller_scraped[df.location_seller_scraped == 'Italia'] = 'Italy'
+    # First, need to convert location names to English (France, UK and US are safe)
+    df_stor.loc[df.location_seller_scraped == 'Deutschland', "location_seller_scraped"] = 'Germany'
+    df_stor.loc[df.location_seller_scraped == 'Italy', "location_seller_scraped"] = 'Italy'
 
     # Renaming and dealing with missings
-    df_stor.bids_n_scraped[df.seller_auction == 0] = np.nan
+    df_stor.loc[df.seller_auction == 0, "bids_n_scraped"] = np.nan
     df_stor.rename(columns = {'location_seller_scraped': 'Country', 'price_sold_scraped':'Sale Price', 'bids_n_scraped':'Number of bids in auctions', 'seller_auction': 'Share of auctions'}, inplace = True)
 
     # Get means and standard deviations per country

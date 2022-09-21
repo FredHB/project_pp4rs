@@ -13,14 +13,14 @@ def clean(input_path, stor):
     """Cleaning data for graphs and creating new filtered data frames"""
     df = pd.read_csv(input_path)
 
-    # First, need to convert location names to English (France and US are safe)
-    df.location_seller_scraped[df.location_seller_scraped == 'Deutschland'] = 'Germany'
-    df.location_seller_scraped[df.location_seller_scraped == 'Italia'] = 'Italy'
+    # First, need to convert location names to English (France, UK and US are safe)
+    df.loc[df.location_seller_scraped == 'Deutschland', "location_seller_scraped"] = 'Germany'
+    df.loc[df.location_seller_scraped == 'Italy', "location_seller_scraped"] = 'Italy'
 
     # Next, need to convert storage to a categorical variable to be able to use catplot 
     df['storage'] = df.storage.astype('category')
 
-    # Martin, don't kill us but a very annoying outlier is killing us, so we'll drop it
+    # Martin, don't judge us but very annoying outliers are killing our nice figures, so we'll drop the max
     df = df.loc[df['price_sold_scraped']!=df['price_sold_scraped'].max()]
 
     # Create data frame with storage == 64, which will be the default for almost all graphs 
@@ -64,8 +64,6 @@ def hist_price_storage(df, output_path_hist_price_storage):
     hist_storage.fig.subplots_adjust(top=0.9)
     hist_storage.fig.suptitle("Distribution of Sale Price by Storage")
     hist_storage.figure.savefig(output_path_hist_price_storage)
-
-
 
     plt.close()
 
