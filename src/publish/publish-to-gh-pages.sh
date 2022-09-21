@@ -8,11 +8,12 @@ mkdir dist/out/
 mkdir dist/src/
 mkdir dist/src/doc/
 
-# copy index.html
-cp ./src/doc/index.html ./dist/src/doc/index.html -u
 # copy all html and png outfiles into the dist folder (use update option)
 cp out/*.html dist/out/ -u
 cp out/*.png dist/out/ -u
+# copy index.html
+# but for this to work, the relative paths in the html need to change becaus dist is root
+sed 's+src[ ]*=[ ]*\"..\/..\/+src="./+g' src/doc/index.html > dist/index.html
 
 # change to the publish folder and init a new git repo
 cd dist
