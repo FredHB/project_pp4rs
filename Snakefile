@@ -5,8 +5,19 @@ rule outputs_all:
         graph_price_storage = "out/hist_price_storage.png",
         graph_price = "out/hist_price.png",
         graph_map = "out/world_map.html",
-        summary_stats = "out/summary_stats.html"
+        summary_stats = "out/summary_stats.html",
+        webpage_timestamp = "out/gh_publication_date_ddmmyy.txt"
 
+rule publish_gh_page:
+# dont need many inputs here, outfiles are already requested by outputs_all rule.
+    input: 
+        webpage_index = "src/doc/index.html"
+    output:
+        webpage_timestamp = "out/gh_publication_date_ddmmyy.txt"
+    shell:
+        '''
+        sh src/publish/publish-to-gh-pages.sh
+        '''
 
 rule table_creator:
     conda: "envs/env_af.yaml"

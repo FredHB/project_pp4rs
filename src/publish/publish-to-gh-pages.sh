@@ -21,6 +21,7 @@ git init --initial-branch=main
 git add -A
 git commit -m 'Deploy to GH pages'
 
+
 # force push to the gh-pages branch
 git push -f git@github.com:FredHB/project_pp4rs.git main:gh-pages
 
@@ -29,3 +30,6 @@ git push -f git@github.com:FredHB/project_pp4rs.git main:gh-pages
 # (in you do so )
 cd ..
 rm -rf ./dist 
+
+# create a timestamped textfile telling us when the latest publication happened
+date +"%m/%d/%Y %H:%M:%S $HOSTNAME" > "./out/gh_publication_date_ddmmyy.txt"
