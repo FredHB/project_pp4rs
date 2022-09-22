@@ -104,7 +104,7 @@ def clean_country_data(df_stor):
             iso_numeric_code = 'Unknown' 
         return iso_numeric_code
 
-    df_stor.loc['code_numeric'] = df_stor['location_seller_scraped'].apply(get_iso_numeric_code)
+    df_stor['code_numeric'] = df_stor['location_seller_scraped'].apply(get_iso_numeric_code)
     return df_stor
 
 def world_map(df_stor, output_path_world_map):
